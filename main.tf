@@ -33,7 +33,7 @@ resource "null_resource" "cli_resource" {
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}"
+    command = "${var.destroy_cmd}"
   }
 
   # By depending on the null_resource, the cli resource effectively depends on the existance
