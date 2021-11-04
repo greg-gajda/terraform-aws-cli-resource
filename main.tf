@@ -30,7 +30,7 @@ locals {
 }
 
 resource "null_resource" "cli_resource" {
-  
+
   provisioner "local-exec" {
     when    = "create"
     command = "/bin/bash -c '${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}'"
@@ -47,7 +47,7 @@ resource "null_resource" "cli_resource" {
 }
 
 resource "null_resource" "dependencies" {
-  triggers {
+  triggers = {
     dependencies = "${join(",", var.dependency_ids)}"
   }
 }
