@@ -22,23 +22,18 @@ data "aws_caller_identity" "id" {}
 
 locals {
   account_id      = "${var.account_id == 0 ? data.aws_caller_identity.id.account_id : var.account_id}"
-  assume_role_cmd = "source ./assume_role.sh ${local.account_id} ${var.role}"
+  assume_role_cmd = "source ${path.module}/assume_role.sh ${local.account_id} ${var.role}"
 }
 
 resource "null_resource" "cli_resource" {
-  triggers = {
-    cmd_create = var.cmd
-    cmd_destroy = var.destroy_cmd
-  }
-
   provisioner "local-exec" {
     when    = "create"
-    command = self.triggers.cmd_create
+    command = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}"
   }
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = self.triggers.cmd_destroy
+    command = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}"
   }
 
   # By depending on the null_resource, the cli resource effectively depends on the existance
