@@ -22,6 +22,9 @@ variable "dependency_ids" {
   default     = []
 }
 
+variable "cmd_create" {}
+variable "cmd_destroy" {}
+
 data "aws_caller_identity" "id" {}
 
 locals {
@@ -30,6 +33,10 @@ locals {
 }
 
 resource "null_resource" "cli_resource" {
+  triggers = {
+    cmd_create = "${var.cmd_create}"
+    cmd_destroy = "${var.cmd_destroy}"
+  }
 
   provisioner "local-exec" {
     when    = "create"
