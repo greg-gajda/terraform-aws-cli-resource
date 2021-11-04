@@ -28,7 +28,7 @@ locals {
 resource "null_resource" "cli_resource" {
   provisioner "local-exec" {
     when    = "create"
-    command = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}"
+    command = "${var.cmd}"
   }
 
   provisioner "local-exec" {
