@@ -26,14 +26,19 @@ locals {
 }
 
 resource "null_resource" "cli_resource" {
+  triggers = {
+    cmd_create = var.cmd
+    cmd_destroy = var.destroy_cmd
+  }
+
   provisioner "local-exec" {
     when    = "create"
-    command = "${var.cmd}"
+    command = self.triggers.cmd_create
   }
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = "${var.destroy_cmd}"
+    command = self.triggers.cmd_destroy
   }
 
   # By depending on the null_resource, the cli resource effectively depends on the existance
