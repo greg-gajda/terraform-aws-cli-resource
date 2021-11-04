@@ -30,19 +30,15 @@ locals {
 }
 
 resource "null_resource" "cli_resource" {
-  triggers = {
-    cmd_create = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}"
-    cmd_destroy = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}"
-  }
 
   provisioner "local-exec" {
     when    = "create"
-    command = "/bin/bash -c '${self.triggers.cmd_create}'"
+    command = "/bin/bash -c '${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}'"
   }
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = "/bin/bash -c '${self.triggers.cmd_destroy}'"
+    command = "/bin/bash -c '${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}'"
   }
 
   # By depending on the null_resource, the cli resource effectively depends on the existance
