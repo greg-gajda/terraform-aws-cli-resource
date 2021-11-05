@@ -18,12 +18,9 @@ variable "role" {
 
 variable "dependency_ids" {
   description = "IDs or ARNs of any resources that are a dependency of the resource created by this module."
-  type        = "list"
+  type        = list(string)
   default     = []
 }
-
-variable "cmd_create" {}
-variable "cmd_destroy" {}
 
 data "aws_caller_identity" "id" {}
 
@@ -31,6 +28,9 @@ locals {
   account_id      = "${var.account_id == 0 ? data.aws_caller_identity.id.account_id : var.account_id}"
   assume_role_cmd = "source ${path.module}/assume_role.sh ${local.account_id} ${var.role}"
 }
+
+variable "cmd_create" {}
+variable "cmd_destroy" {}
 
 resource "null_resource" "cli_resource" {
   triggers = {
