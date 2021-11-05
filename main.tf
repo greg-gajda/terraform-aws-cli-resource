@@ -26,23 +26,23 @@ data "aws_caller_identity" "id" {}
 
 locals {
   account_id      = "${var.account_id == 0 ? data.aws_caller_identity.id.account_id : var.account_id}"
-  assume_role_cmd = "source ${path.module}/assume_role.sh ${local.account_id} ${var.role}"
+  assume_role_cmd = "source ${path.module}/assume_role.sh ${data.aws_caller_identity.id.account_id} ${var.role}"
 }
 
 resource "null_resource" "cli_resource" {
   triggers = {
-    cmd_create = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}"
-    cmd_destroy = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}"
+    cmd_create = "${var.role == "0" ? "" : "${local.assume_role_cmd} && "}${var.cmd}"
+    cmd_destroy = "${var.role == "0" ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}"
   }
 
   provisioner "local-exec" {
     when    = "create"
-    command = "/bin/bash -c '${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}'"
+    command = "/bin/bash -c '${var.role == "0" ? "" : "${local.assume_role_cmd} && "}${var.cmd}'"
   }
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = "/bin/bash -c '${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}'"
+    command = "/bin/bash -c '${var.role == "0" ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}'"
   }
 
   # By depending on the null_resource, the cli resource effectively depends on the existance
