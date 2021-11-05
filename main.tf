@@ -18,7 +18,7 @@ variable "role" {
 
 variable "dependency_ids" {
   description = "IDs or ARNs of any resources that are a dependency of the resource created by this module."
-  type        = list(string)
+  type        = "list"
   default     = []
 }
 
@@ -29,23 +29,16 @@ locals {
   assume_role_cmd = "source ${path.module}/assume_role.sh ${local.account_id} ${var.role}"
 }
 
-variable "cmd_create" {}
-variable "cmd_destroy" {}
-
 resource "null_resource" "cli_resource" {
-  triggers = {
-    cmd_create = "${var.cmd_create}"
-    cmd_destroy = "${var.cmd_destroy}"
-  }
 
   provisioner "local-exec" {
     when    = "create"
-    command = "/bin/bash -c '${self.triggers.cmd_create}'"
+    command = "/bin/bash -c '${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}'"
   }
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = "/bin/bash -c '${self.triggers.cmd_destroy}'"
+    command = "/bin/bash -c '${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}'"
   }
 
   # By depending on the null_resource, the cli resource effectively depends on the existance
