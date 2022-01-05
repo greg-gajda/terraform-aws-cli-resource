@@ -63,7 +63,7 @@ resource "null_resource" "cli_resource" {
 
   # By depending on the null_resource, the cli resource effectively depends on the existance
   # of the resources identified by the ids provided via the dependency_ids list variable.
-  depends_on = ["null_resource.dependencies"]
+  depends_on = [ "null_resource.dependencies", "null_resource.assume_role" ]
 }
 
 resource "null_resource" "dependencies" {
