@@ -26,12 +26,12 @@ data "aws_caller_identity" "id" {}
 
 resource "local_file" "foo" {
   content  = "${base64decode("cm9sZV9zZXNzaW9uX25hbWU9YGNhdCAvcHJvYy9zeXMva2VybmVsL3JhbmRvbS91dWlkIDI+L2Rldi9udWxsIHx8IGRhdGUgfCBja3N1bSB8IGN1dCAtZCAiICIgLWYgMWAKYXdzX2NyZWRzPSQoYXdzIHN0cyBhc3N1bWUtcm9sZSAtLXJvbGUtYXJuIGFybjphd3M6aWFtOjokMTpyb2xlLyQyIC0tcm9sZS1zZXNzaW9uLW5hbWUgJHJvbGVfc2Vzc2lvbl9uYW1lIC0tZHVyYXRpb24tc2Vjb25kcyAzNjAwIC0tb3V0cHV0IGpzb24pCmlmIFsgIiQ/IiAtbmUgMCBdOyB0aGVuIGV4aXQgMTsgZmkKZXhwb3J0IEFXU19BQ0NFU1NfS0VZX0lEPSQoZWNobyAiJHthd3NfY3JlZHN9IiB8IGdyZXAgQWNjZXNzS2V5SWQgfCBhd2sgLUYnIicgJ3twcmludCAkNH0nICkKZXhwb3J0IEFXU19TRUNSRVRfQUNDRVNTX0tFWT0kKGVjaG8gIiR7YXdzX2NyZWRzfSIgfCBncmVwIFNlY3JldEFjY2Vzc0tleSB8IGF3ayAtRiciJyAne3ByaW50ICQ0fScgKQpleHBvcnQgQVdTX1NFU1NJT05fVE9LRU49JChlY2hvICIke2F3c19jcmVkc30iIHwgZ3JlcCBTZXNzaW9uVG9rZW4gfCBhd2sgLUYnIicgJ3twcmludCAkNH0nICkKZXhwb3J0IEFXU19TRUNVUklUWV9UT0tFTj0kKGVjaG8gIiR7YXdzX2NyZWRzfSIgfCBncmVwIFNlc3Npb25Ub2tlbiB8IGF3ayAtRiciJyAne3ByaW50ICQ0fScgKQplY2hvICJzZXNzaW9uICckcm9sZV9zZXNzaW9uX25hbWUnIHZhbGlkIGZvciA2MCBtaW51dGVzIg==")}"
-  filename = "${path.module}/assume_role.sh"
+  filename = "/tmp/assume_role.sh"
 }
 
 locals {
   account_id      = "${var.account_id == 0 ? data.aws_caller_identity.id.account_id : var.account_id}"
-  assume_role_cmd = "source ${path.module}/assume_role.sh ${local.account_id} ${var.role}"
+  assume_role_cmd = "source /tmp/assume_role.sh ${local.account_id} ${var.role}"
 }
 
 resource "null_resource" "cli_resource" {
