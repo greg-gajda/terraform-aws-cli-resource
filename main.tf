@@ -61,8 +61,9 @@ resource "null_resource" "cli_resource" {
     command = "/bin/bash -c '${self.triggers.cmd_destroy}'"
   }
 
-  # By depending on the null_resource, the cli resource effectively depends on the existance
-  # of the resources identified by the ids provided via the dependency_ids list variable.
+  # By depending on the null_resource, the cli resource effectively depends on the existence
+  # of the resources identified by the ids provided via the dependency_ids list variable
+  # and the availability of assume role script
   depends_on = [ "null_resource.dependencies", "null_resource.assume_role" ]
 }
 
