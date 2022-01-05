@@ -18,7 +18,7 @@ variable "role" {
 
 variable "dependency_ids" {
   description = "IDs or ARNs of any resources that are a dependency of the resource created by this module."
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
@@ -47,8 +47,8 @@ resource "null_resource" "assume_role" {
 
 resource "null_resource" "cli_resource" {
   triggers = {
-    cmd_create = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}"
-    cmd_destroy = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}"
+    cmd_create = "${var.role == "0" ? "" : "${local.assume_role_cmd} && "}${var.cmd}"
+    cmd_destroy = "${var.role == "0" ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}"
   }
 
   provisioner "local-exec" {
