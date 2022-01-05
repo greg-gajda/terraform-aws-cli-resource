@@ -18,7 +18,7 @@ variable "role" {
 
 variable "dependency_ids" {
   description = "IDs or ARNs of any resources that are a dependency of the resource created by this module."
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
