@@ -31,19 +31,18 @@ locals {
 
 resource "null_resource" "cli_resource" {
   triggers = {
-    assume_role = "echo cm9sZV9zZXNzaW9uX25hbWU9YGNhdCAvcHJvYy9zeXMva2VybmVsL3JhbmRvbS91dWlkIDI+L2Rldi9udWxsIHx8IGRhdGUgfCBja3N1bSB8IGN1dCAtZCAiICIgLWYgMWAKYXdzX2NyZWRzPSQoYXdzIHN0cyBhc3N1bWUtcm9sZSAtLXJvbGUtYXJuIGFybjphd3M6aWFtOjokMTpyb2xlLyQyIC0tcm9sZS1zZXNzaW9uLW5hbWUgJHJvbGVfc2Vzc2lvbl9uYW1lIC0tZHVyYXRpb24tc2Vjb25kcyAzNjAwIC0tb3V0cHV0IGpzb24pCmlmIFsgIiQ/IiAtbmUgMCBdOyB0aGVuIGV4aXQgMTsgZmkKZXhwb3J0IEFXU19BQ0NFU1NfS0VZX0lEPSQoZWNobyAiJHthd3NfY3JlZHN9IiB8IGdyZXAgQWNjZXNzS2V5SWQgfCBhd2sgLUYnIicgJ3twcmludCAkNH0nICkKZXhwb3J0IEFXU19TRUNSRVRfQUNDRVNTX0tFWT0kKGVjaG8gIiR7YXdzX2NyZWRzfSIgfCBncmVwIFNlY3JldEFjY2Vzc0tleSB8IGF3ayAtRiciJyAne3ByaW50ICQ0fScgKQpleHBvcnQgQVdTX1NFU1NJT05fVE9LRU49JChlY2hvICIke2F3c19jcmVkc30iIHwgZ3JlcCBTZXNzaW9uVG9rZW4gfCBhd2sgLUYnIicgJ3twcmludCAkNH0nICkKZXhwb3J0IEFXU19TRUNVUklUWV9UT0tFTj0kKGVjaG8gIiR7YXdzX2NyZWRzfSIgfCBncmVwIFNlc3Npb25Ub2tlbiB8IGF3ayAtRiciJyAne3ByaW50ICQ0fScgKQplY2hvICJzZXNzaW9uICckcm9sZV9zZXNzaW9uX25hbWUnIHZhbGlkIGZvciA2MCBtaW51dGVzIg== | base64 --decode > /tmp/assume_role.sh"
     cmd_create = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.cmd}"
     cmd_destroy = "${var.role == 0 ? "" : "${local.assume_role_cmd} && "}${var.destroy_cmd}"
   }
 
   provisioner "local-exec" {
     when    = "create"
-    command = "/bin/bash -c '${self.triggers.assume_role} && ${self.triggers.cmd_create}'"
+    command = "/bin/bash -c 'echo cm9sZV9zZXNzaW9uX25hbWU9YGNhdCAvcHJvYy9zeXMva2VybmVsL3JhbmRvbS91dWlkIDI+L2Rldi9udWxsIHx8IGRhdGUgfCBja3N1bSB8IGN1dCAtZCAiICIgLWYgMWAKYXdzX2NyZWRzPSQoYXdzIHN0cyBhc3N1bWUtcm9sZSAtLXJvbGUtYXJuIGFybjphd3M6aWFtOjokMTpyb2xlLyQyIC0tcm9sZS1zZXNzaW9uLW5hbWUgJHJvbGVfc2Vzc2lvbl9uYW1lIC0tZHVyYXRpb24tc2Vjb25kcyAzNjAwIC0tb3V0cHV0IGpzb24pCmlmIFsgIiQ/IiAtbmUgMCBdOyB0aGVuIGV4aXQgMTsgZmkKZXhwb3J0IEFXU19BQ0NFU1NfS0VZX0lEPSQoZWNobyAiJHthd3NfY3JlZHN9IiB8IGdyZXAgQWNjZXNzS2V5SWQgfCBhd2sgLUYnIicgJ3twcmludCAkNH0nICkKZXhwb3J0IEFXU19TRUNSRVRfQUNDRVNTX0tFWT0kKGVjaG8gIiR7YXdzX2NyZWRzfSIgfCBncmVwIFNlY3JldEFjY2Vzc0tleSB8IGF3ayAtRiciJyAne3ByaW50ICQ0fScgKQpleHBvcnQgQVdTX1NFU1NJT05fVE9LRU49JChlY2hvICIke2F3c19jcmVkc30iIHwgZ3JlcCBTZXNzaW9uVG9rZW4gfCBhd2sgLUYnIicgJ3twcmludCAkNH0nICkKZXhwb3J0IEFXU19TRUNVUklUWV9UT0tFTj0kKGVjaG8gIiR7YXdzX2NyZWRzfSIgfCBncmVwIFNlc3Npb25Ub2tlbiB8IGF3ayAtRiciJyAne3ByaW50ICQ0fScgKQplY2hvICJzZXNzaW9uICckcm9sZV9zZXNzaW9uX25hbWUnIHZhbGlkIGZvciA2MCBtaW51dGVzIg== | base64 --decode > /tmp/assume_role.sh && ${self.triggers.cmd_create}'"
   }
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = "/bin/bash -c '${self.triggers.assume_role} && ${self.triggers.cmd_destroy}'"
+    command = "/bin/bash -c 'echo cm9sZV9zZXNzaW9uX25hbWU9YGNhdCAvcHJvYy9zeXMva2VybmVsL3JhbmRvbS91dWlkIDI+L2Rldi9udWxsIHx8IGRhdGUgfCBja3N1bSB8IGN1dCAtZCAiICIgLWYgMWAKYXdzX2NyZWRzPSQoYXdzIHN0cyBhc3N1bWUtcm9sZSAtLXJvbGUtYXJuIGFybjphd3M6aWFtOjokMTpyb2xlLyQyIC0tcm9sZS1zZXNzaW9uLW5hbWUgJHJvbGVfc2Vzc2lvbl9uYW1lIC0tZHVyYXRpb24tc2Vjb25kcyAzNjAwIC0tb3V0cHV0IGpzb24pCmlmIFsgIiQ/IiAtbmUgMCBdOyB0aGVuIGV4aXQgMTsgZmkKZXhwb3J0IEFXU19BQ0NFU1NfS0VZX0lEPSQoZWNobyAiJHthd3NfY3JlZHN9IiB8IGdyZXAgQWNjZXNzS2V5SWQgfCBhd2sgLUYnIicgJ3twcmludCAkNH0nICkKZXhwb3J0IEFXU19TRUNSRVRfQUNDRVNTX0tFWT0kKGVjaG8gIiR7YXdzX2NyZWRzfSIgfCBncmVwIFNlY3JldEFjY2Vzc0tleSB8IGF3ayAtRiciJyAne3ByaW50ICQ0fScgKQpleHBvcnQgQVdTX1NFU1NJT05fVE9LRU49JChlY2hvICIke2F3c19jcmVkc30iIHwgZ3JlcCBTZXNzaW9uVG9rZW4gfCBhd2sgLUYnIicgJ3twcmludCAkNH0nICkKZXhwb3J0IEFXU19TRUNVUklUWV9UT0tFTj0kKGVjaG8gIiR7YXdzX2NyZWRzfSIgfCBncmVwIFNlc3Npb25Ub2tlbiB8IGF3ayAtRiciJyAne3ByaW50ICQ0fScgKQplY2hvICJzZXNzaW9uICckcm9sZV9zZXNzaW9uX25hbWUnIHZhbGlkIGZvciA2MCBtaW51dGVzIg== | base64 --decode > /tmp/assume_role.sh && ${self.triggers.cmd_destroy}'"
   }
 
   # By depending on the null_resource, the cli resource effectively depends on the existance
